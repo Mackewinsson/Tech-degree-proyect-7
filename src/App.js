@@ -74,6 +74,7 @@ const App = () => {
       const fetchResult = await searchFetch.json();
       const searchResult = fetchResult.photos.photo;
       setSearch(searchResult);
+      console.log(searchResult);
     } catch (error) {
       console.log("Error occurred while fetching and parsing data", error);
     }
@@ -81,7 +82,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <Search search={searchFetch} />
+      <Search onSearch={searchFetch} />
       <BrowserRouter>
         <Route path="/" render={() => <Nav />} />
         <Route path="/" render={() => <Redirect to="/cats" />} />
