@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { withRouter } from "react-router";
+// import { history } from "react-router-dom";
 
 const Search = ({ search, history }) => {
   // INPUT STATE
@@ -13,10 +13,10 @@ const Search = ({ search, history }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     search(input);
-    let searchInput = input;
-    let path = `/search/${searchInput}`;
-    history.push(path);
-    e.currentTarget.reset();
+    // let searchInput = input;
+    // let path = `/search/${searchInput}`;
+    // history.push(path);
+    // e.currentTarget.reset();
   };
 
   return (
@@ -43,4 +43,4 @@ const Search = ({ search, history }) => {
     </form>
   );
 };
-export default withRouter(Search);
+export default Search;
