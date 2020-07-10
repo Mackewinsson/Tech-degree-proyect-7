@@ -4,8 +4,9 @@ import "./assets/styles/index.css";
 // COMPONENTS
 import Search from "./components/Seach.js";
 import Nav from "./components/Nav.js";
+import NotFound from "./components/NotFound";
 // ROUTER
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 // API KEYS
 import apiKey from "./config";
 import PhotoContainer from "./components/PhotoContainer";
@@ -22,7 +23,6 @@ const App = () => {
     fetchDogs();
     fetchhamster();
     searchFetch();
-    console.log("fetching");
   }, []);
 
   //This method fetches the CAT topic link
@@ -74,36 +74,37 @@ const App = () => {
       const fetchResult = await searchFetch.json();
       const searchResult = fetchResult.photos.photo;
       setSearch(searchResult);
-      console.log(searchResult);
     } catch (error) {
       console.log("Error occurred while fetching and parsing data", error);
     }
   };
-
   return (
-    <div className="App">
-      <Search onSearch={searchFetch} />
-      <BrowserRouter>
-        <Route path="/" render={() => <Nav />} />
-        <Route path="/" render={() => <Redirect to="/cats" />} />
-        <Route
-          path="/search/:query"
-          render={() => <PhotoContainer data={search} />}
-        />
-        <Route
-          path="/cats"
-          render={() => <PhotoContainer data={cats} tag={"Cats"} />}
-        />
-        <Route
-          path="/dogs"
-          render={() => <PhotoContainer data={dogs} tag={"Dogs"} />}
-        />
-        <Route
-          path="/hamsters"
-          render={() => <PhotoContainer data={hamsters} tag={"Hamsters"} />}
-        />
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Search onSearch={searchFetch} />
+        <Nav />
+        <Switch>
+          <Route exact path="/" render={() => <Redirect to="/cats" />} />
+          <Route
+            path="/search/:query"
+            render={() => <PhotoContainer data={search} />}
+          />
+          <Route
+            path="/cats"
+            render={() => <PhotoContainer data={cats} tag={"Cats"} />}
+          />
+          <Route
+            path="/dogs"
+            render={() => <PhotoContainer data={dogs} tag={"Dogs"} />}
+          />
+          <Route
+            path="/hamsters"
+            render={() => <PhotoContainer data={hamsters} tag={"Hamsters"} />}
+          />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 };
 
